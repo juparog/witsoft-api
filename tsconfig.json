@@ -12,7 +12,7 @@
     "baseUrl": "./",
     "paths": {
       "@/modules/*": ["src/modules/*"],
-      "@/utils/*": ["src/utils/*"],
+      "@/utils/*": ["src/utils/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
@@ -20,6 +20,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true
   }
 }

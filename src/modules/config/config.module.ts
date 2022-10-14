@@ -1,15 +1,14 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigService } from './config.service';
 
-@Module({
-  providers: [ConfigService],
-  exports: [ConfigService]
-})
+@Global()
+@Module({})
 export class ConfigModule {
-  static forRoot(entities = [], options?): DynamicModule {
+  static register(): DynamicModule {
     return {
       module: ConfigModule,
-      global: true
+      providers: [ConfigService],
+      exports: [ConfigService]
     };
   }
 }

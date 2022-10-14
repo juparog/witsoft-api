@@ -6,7 +6,8 @@ import { Schema, TConfigSchema } from './config.schema';
 
 @Injectable()
 export class ConfigService {
-  constructor(private readonly config: Convict.Config<TConfigSchema>) {
+  private config: Convict.Config<TConfigSchema>;
+  constructor() {
     this.config = Convict(Schema);
 
     const dotEnvFile = dotenv.config().parsed;
