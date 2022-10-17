@@ -11,6 +11,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@/config/*": ["src/config/*"],
       "@/modules/*": ["src/modules/*"],
       "@/utils/*": ["src/utils/*"]
     },
