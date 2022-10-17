@@ -1,22 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+
 import { CreateTest1Dto } from './dto/create-test1.dto';
 import { UpdateTest1Dto } from './dto/update-test1.dto';
+import { AppConfigService } from '@/config/app-config.service';
 
 @Injectable()
 export class Test1Service {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly appConfigService: AppConfigService) {}
 
   create(createTest1Dto: CreateTest1Dto) {
     return 'This action adds a new test1';
   }
 
   findAll() {
-    console.log(this.configService.get<number>('app.port'));
-    console.log(this.configService.get<number>('db.port'));
-    console.log(this.configService.get<number>('PORT'));
-    console.log(this.configService.get<number>('TEST', { infer: true }));
-
+    console.log(this.appConfigService.nodeEnv);
+    console.log(this.appConfigService.port);
     return `This action returns all test1`;
   }
 
