@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateTest1Dto } from './dto/create-test1.dto';
 import { UpdateTest1Dto } from './dto/update-test1.dto';
-import { AppConfigService } from '@/config/app-config.service';
+import { AppConfigService } from 'src/services/config/app-config.service';
 
 @Injectable()
 export class Test1Service {
