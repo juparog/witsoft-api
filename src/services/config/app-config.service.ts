@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { IsEnum, IsInt, IsOptional, IsPositive } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsPositive,
+  IsString
+} from 'class-validator';
 
 import { ValidatedConfigService } from './validated-config.service';
 
@@ -18,6 +24,12 @@ export class AppConfigService extends ValidatedConfigService {
   @IsEnum(Environment)
   get nodeEnv(): string {
     return this.configService.get<string>('app.nodeEnv');
+  }
+
+  @IsString()
+  @IsOptional()
+  get host(): string {
+    return this.configService.get<string>('app.host') || 'localhost';
   }
 
   @IsInt()
