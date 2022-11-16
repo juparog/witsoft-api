@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common/services';
-import { AppConfigService } from 'src/services/config/app-config.service';
+import { AppConfigService } from '@/services/app-config/app-config.service';
 import { VersioningType } from '@nestjs/common';
 
 const logger = new Logger('main');

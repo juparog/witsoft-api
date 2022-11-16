@@ -8,7 +8,7 @@ import {
   IsString
 } from 'class-validator';
 
-import { ValidatedConfigService } from './validated-config.service';
+import { ValidatedConfigService } from '@/services/config/validated-config.service';
 
 enum Environment {
   Development = 'development',
@@ -29,7 +29,7 @@ export class AppConfigService extends ValidatedConfigService {
   @IsString()
   @IsOptional()
   get host(): string {
-    return this.configService.get<string>('app.host') || 'localhost';
+    return this.configService.get<string>('app.host');
   }
 
   @IsInt()
