@@ -1,9 +1,10 @@
+import { VersioningType } from '@nestjs/common';
+import { Logger } from '@nestjs/common/services';
 import { NestFactory } from '@nestjs/core';
 
-import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common/services';
 import { AppConfigService } from '@/services/app-config/app-config.service';
-import { VersioningType } from '@nestjs/common';
+
+import { AppModule } from './app.module';
 
 const logger = new Logger('main');
 

@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { OrganizationModule } from '@/modules/organization/organization.module';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Test1Module } from './modules/test1/test1.module';
@@ -10,7 +12,8 @@ import { Test1Module } from './modules/test1/test1.module';
     ConfigModule.forRoot({
       envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`, '.env']
     }),
-    Test1Module
+    Test1Module,
+    OrganizationModule
   ],
   controllers: [AppController],
   providers: [AppService]
