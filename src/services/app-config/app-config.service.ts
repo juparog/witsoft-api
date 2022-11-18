@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+
 import {
   IsEnum,
   IsInt,
@@ -8,7 +9,7 @@ import {
   IsString
 } from 'class-validator';
 
-import { ValidatedConfigService } from '@/services/config/validated-config.service';
+import { ValidatedConfigService } from '@witsoft/services/utils/validated-config.service';
 
 enum Environment {
   Development = 'development',

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { OrganizationModule } from '@/modules/organization/organization.module';
+import { OrganizationModule } from '@witsoft/modules/organization/organization.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

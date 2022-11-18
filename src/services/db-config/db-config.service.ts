@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { IsInt, IsOptional, IsPositive, IsString } from 'class-validator';
 
-import { ValidatedConfigService } from '@/services/config/validated-config.service';
+import { IsInt, IsOptional, IsPositive, IsString } from 'class-validator';
+import { ValidatedConfigService } from '@witsoft/services/utils/validated-config.service';
 
 @Injectable()
 export class DbConfigService extends ValidatedConfigService {

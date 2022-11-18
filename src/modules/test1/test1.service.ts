@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
+import { AppConfigService } from '@witsoft/services/app-config/app-config.service';
+
 import { CreateTest1Dto } from './dto/create-test1.dto';
 import { UpdateTest1Dto } from './dto/update-test1.dto';
-import { AppConfigService } from '@/services/app-config/app-config.service';
 
 @Injectable()
 export class Test1Service {

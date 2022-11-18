@@ -2,7 +2,7 @@ import { VersioningType } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services';
 import { NestFactory } from '@nestjs/core';
 
-import { AppConfigService } from '@/services/app-config/app-config.service';
+import { AppConfigService } from '@witsoft/services/app-config/app-config.service';
 
 import { AppModule } from './app.module';
 
@@ -11,6 +11,7 @@ const logger = new Logger('main');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const appConfigService = app.get<AppConfigService>(AppConfigService);
+  app.enableCors();
   app.enableVersioning({
     defaultVersion: '1',
     type: VersioningType.URI
@@ -18,6 +19,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   const HOST = appConfigService.host;
   const PORT = appConfigService.port;
+
   await app.listen(PORT, HOST, () => {
     logLogo();
     logger.log(`Listening at http://${HOST}:${PORT}`);

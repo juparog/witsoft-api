@@ -1,9 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { OrganizationService } from './organization.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete
+} from '@nestjs/common';
+
+import { routesV1 } from '@witsoft/config/app.routes';
+
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
+import { OrganizationService } from './organization.service';
 
-@Controller('organization')
+@Controller({
+  path: routesV1.organization.root,
+  version: routesV1.version
+})
 export class OrganizationController {
   constructor(private readonly organizationService: OrganizationService) {}
 
@@ -23,7 +37,10 @@ export class OrganizationController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrganizationDto: UpdateOrganizationDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateOrganizationDto: UpdateOrganizationDto
+  ) {
     return this.organizationService.update(+id, updateOrganizationDto);
   }
 

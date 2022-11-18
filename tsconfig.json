@@ -11,9 +11,9 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/modules/*": ["src/modules/*"],
-      "@/services/*": ["src/services/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@witsoft/config/*": ["src/configs/*"],
+      "@witsoft/modules/*": ["src/modules/*"],
+      "@witsoft/services/*": ["src/services/*"],
     },
     "incremental": true,
     "skipLibCheck": true,

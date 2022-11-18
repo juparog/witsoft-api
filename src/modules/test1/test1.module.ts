@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 
-import { Test1Service } from './test1.service';
+import { AppConfigModule } from '@witsoft/services/app-config/app-config.module';
+
 import { Test1Controller } from './test1.controller';
-import { AppConfigModule } from '@/services/app-config/app-config.module';
+import { Test1Service } from './test1.service';
 
 @Module({
   imports: [AppConfigModule],
