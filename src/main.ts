@@ -1,8 +1,9 @@
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { Logger } from '@nestjs/common/services';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { AppConfigService } from '@witsoft/services/app-config/app-config.service';
+import { AppConfigService } from '@witsoft/config/app-config/app-config.service';
 
 import { AppModule } from './app.module';
 
@@ -10,16 +11,33 @@ const logger = new Logger('main');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   const appConfigService = app.get<AppConfigService>(AppConfigService);
+
   app.enableCors();
   app.enableVersioning({
     defaultVersion: '1',
-    type: VersioningType.URI
+    type: VersioningType.URI,
+	  prefix: ''
   });
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(appConfigService.apiPrefix);
+	app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  const config = new DocumentBuilder()
+  .setTitle(appConfigService.apiName)
+  .setDescription(appConfigService.apiDescription)
+  .setVersion(appConfigService.apiVersion)
+  .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   const HOST = appConfigService.host;
   const PORT = appConfigService.port;
-
   await app.listen(PORT, HOST, () => {
     logLogo();
     logger.log(`Listening at http://${HOST}:${PORT}`);

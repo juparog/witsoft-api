@@ -9,7 +9,7 @@ import {
   IsString
 } from 'class-validator';
 
-import { ValidatedConfigService } from '@witsoft/services/utils/validated-config.service';
+import { ValidatedConfigService } from '@witsoft/config/validated-config.service';
 
 enum Environment {
   Development = 'development',
@@ -38,5 +38,29 @@ export class AppConfigService extends ValidatedConfigService {
   @IsOptional()
   get port(): number {
     return this.configService.get<number>('app.port');
+  }
+
+  @IsString()
+  @IsOptional()
+  get apiName(): string {
+    return this.configService.get<string>('app.apiName');
+  }
+
+  @IsString()
+  @IsOptional()
+  get apiDescription(): string {
+    return this.configService.get<string>('app.apiDescription');
+  }
+
+  @IsString()
+  @IsOptional()
+  get apiVersion(): string {
+    return this.configService.get<string>('app.apiVersion');
+  }
+
+  @IsString()
+  @IsOptional()
+  get apiPrefix(): string {
+    return this.configService.get<string>('app.apiPrefix');
   }
 }

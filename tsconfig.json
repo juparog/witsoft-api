@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "es2019",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -14,6 +15,7 @@
       "@witsoft/config/*": ["src/configs/*"],
       "@witsoft/modules/*": ["src/modules/*"],
       "@witsoft/services/*": ["src/services/*"],
+      "@witsoft/libs/*": ["src/libs/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

@@ -38,26 +38,26 @@ module.exports = {
     'import/order': [
       'error',
       {
-        pathGroups: [
-          {
-            'pattern': '@witsoft/**',
-            'group': 'external',
-            'position': 'after'
-          }
-        ],
-        groups: [
-          'builtin',
+				alphabetize: {
+					order: 'asc',
+					caseInsensitive: true,
+				},
+				groups: [
+					'builtin',
           'external',
           'internal',
           ['sibling', 'parent'],
           'index',
-          'unknown',
+          'unknown',s
         ],
         newlinesBetween: 'always',
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
-        },
+				pathGroups: [
+					{
+						'pattern': '@witsoft/**',
+						'group': 'external',
+						'position': 'after'
+					}
+				],
       },
     ],
     'prettier/prettier': 'error',

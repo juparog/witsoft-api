@@ -1,10 +1,24 @@
-# EditorConfig is awesome: https://EditorConfig.org
 
-# top-most EditorConfig file
+# http://editorconfig.org
+root = true
+
 [*]
 charset = utf-8
-end_of_line = lf
+indent_style = tab
 indent_size = 2
-indent_style = space
+end_of_line=LF
 insert_final_newline = true
-root = true
+trim_trailing_whitespace = true
+
+[*.md]
+max_line_length = off
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+[*.yml]
+indent_style=espacio
+indent_size = 2
+
+[*.json]
+indent_style=espacio
+indent_size = 2
