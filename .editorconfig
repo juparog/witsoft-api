@@ -4,7 +4,7 @@ root = true
 
 [*]
 charset = utf-8
-indent_style = tab
+indent_style = space
 indent_size = 2
 end_of_line=LF
 insert_final_newline = true
@@ -16,9 +16,9 @@ insert_final_newline = false
 trim_trailing_whitespace = false
 
 [*.yml]
-indent_style=espacio
+indent_style = space
 indent_size = 2
 
 [*.json]
-indent_style=espacio
+indent_style = space
 indent_size = 2

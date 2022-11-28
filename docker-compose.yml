@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: witsoft
-      MYSQL_USER: witsoft
-      MYSQL_PASSWORD: witsoft
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Abc123
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -18,6 +18,10 @@ services:
     image: mongo:4.4.18
     container_name: witsoft-mongo-service
     restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Abc123
+      MONGODB_DATABASE: witsoft
     volumes:
       - mongo_data:/data/configdb
       - mongo_data:/data/db

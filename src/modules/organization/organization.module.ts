@@ -1,8 +1,9 @@
 import { Logger, Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 
-import { ORGANIZATION_REPOSITORY } from './organization.di-tokens';
+import { ORGANIZATION_REPOSITORY, ORGANIZATION_SCHEMA } from './organization.di-tokens';
 import { OrganizationRepository } from './database/organization.repository';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import {
 	CreateOrganizationHttpController,
@@ -20,7 +21,9 @@ const repositories: Provider[] = [
 ];
 
 @Module({
-	imports: [CqrsModule],
+	imports: [
+    MongooseModule.forFeature([{ name: ORGANIZATION_SCHEMA, schema: UserSchema }]),
+    CqrsModule],
   controllers: [...httpControllers],
 	providers: [
 		Logger,

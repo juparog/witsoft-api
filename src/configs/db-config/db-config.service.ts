@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { IsInt, IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsEnum, IsString } from 'class-validator';
 import { ValidatedConfigService } from '@witsoft/config/validated-config.service';
+import { LoggerLevel } from './db-config.types';
+
 
 @Injectable()
 export class DbConfigService extends ValidatedConfigService {
@@ -11,15 +13,12 @@ export class DbConfigService extends ValidatedConfigService {
   }
 
   @IsString()
-  @IsOptional()
-  get host(): string {
-    return this.configService.get<string>('db.host');
+  get mongoUri(): string {
+    return this.configService.get<string>('db.mongoUri');
   }
 
-  @IsInt()
-  @IsPositive()
-  @IsOptional()
-  get port(): number {
-    return this.configService.get<number>('db.port');
+  @IsEnum(LoggerLevel)
+  get loggerLevel(): LoggerLevel {
+    return this.configService.get<LoggerLevel>('db.loggerLevel');
   }
 }
