@@ -6,10 +6,10 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: witsoft
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Abc123
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -19,14 +19,29 @@ services:
     container_name: witsoft-mongo-service
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: Abc123
-      MONGODB_DATABASE: witsoft
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
     volumes:
       - mongo_data:/data/configdb
       - mongo_data:/data/db
     ports:
       - 27017:27017
+    networks:
+      - core_service_network
+    command: ["/usr/local/bin/docker-entrypoint.sh", "mongod"]
+  mongo_express:
+    image: mongo-express
+    container_name: witsoft-mongo-express-service
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_SERVER: witsoft-mongo-service
+      ME_CONFIG_MONGODB_PORT: "27017"
+    depends_on:
+      - db_mongo
     networks:
       - core_service_network
   # api:

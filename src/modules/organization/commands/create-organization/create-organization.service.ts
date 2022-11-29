@@ -3,10 +3,13 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Err, Ok, Result } from 'oxide.ts';
 
 import { AggregateID } from '@witsoft/libs/ddd';
-import { ConflictException, InternalServerErrorException } from '@witsoft/libs/exceptions';
+import { UnprocessableEntityException, InternalServerErrorException } from '@witsoft/libs/exceptions';
 import { OrganizationRepositoryPort } from '@witsoft/modules/organization/database/organization.repository.port';
 import { OrganizationEntity } from '@witsoft/modules/organization/domain/organization.entity';
-import { OrganizationAlreadyExistsError } from '@witsoft/modules/organization/domain/organization.errors';
+import {
+  OrganizationAlreadyExistsError,
+  OrganizationUnprocessableError
+} from '@witsoft/modules/organization/domain/organization.errors';
 import { ORGANIZATION_REPOSITORY } from '@witsoft/modules/organization/organization.di-tokens';
 
 import { CreateOrganizationCommand } from './create-organization.command';
@@ -20,9 +23,14 @@ export class CreateOrganizationService implements ICommandHandler {
   ) {}
 
   async execute(command: CreateOrganizationCommand): Promise<
-    Result<AggregateID, OrganizationAlreadyExistsError | InternalServerErrorException>
+    Result<
+      AggregateID,
+      OrganizationAlreadyExistsError |
+      OrganizationUnprocessableError |
+      InternalServerErrorException
+    >
   > {
-		// Agregar mas propiedades necesarias para rear la organizacion, ejemplo un rol de inicio
+		// Agregar mas propiedades necesarias para crear la organizacion, ejemplo un rol de inicio
 		const organization = OrganizationEntity.create({
       email: command.email,
       name: command.name,
@@ -34,8 +42,15 @@ export class CreateOrganizationService implements ICommandHandler {
       await this.organizationRepo.transaction(async () => this.organizationRepo.insert(organization));
       return Ok(organization.id);
     } catch (error: any) {
-      if (error instanceof ConflictException) {
-        return Err(new OrganizationAlreadyExistsError(error));
+      if (error instanceof UnprocessableEntityException) {
+        const errorMetadata: any = error.metadata;
+        const hasUniqueConstraint = errorMetadata.subErrors ?
+          errorMetadata.subErrors.some(subError => subError.type === 'unique')
+          : false;
+        if (hasUniqueConstraint) {
+          return Err(new OrganizationAlreadyExistsError(error));
+        }
+        return Err(new OrganizationUnprocessableError(error));
       }
       throw error;
     }

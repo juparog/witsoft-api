@@ -1,5 +1,7 @@
 import { Option } from 'oxide.ts';
 
+import { AggregateID } from '@witsoft/libs/ddd/';
+
 export class Paginated<T> {
   readonly count: number;
   readonly limit: number;
@@ -24,7 +26,7 @@ export type PaginatedQueryParams = {
 };
 
 export interface RepositoryPort<Entity> {
-  insert(entity: Entity): Promise<void>;
+  insert(entity: Entity): Promise<AggregateID | AggregateID[]>;
   findOneById(id: string): Promise<Option<Entity>>;
   findAll(): Promise<Entity[]>;
   findAllPaginated(params: PaginatedQueryParams): Promise<Paginated<Entity>>;

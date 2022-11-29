@@ -1,6 +1,5 @@
-import { v4 } from 'uuid';
-
 import { AggregateRoot, AggregateID } from '@witsoft/libs/ddd';
+import { uuidv4To12 } from '@witsoft/libs/utils';
 
 import { OrganizationCreatedDomainEvent } from './events/organization-created.domain-event';
 import { CreateOrganizationProps, OrganizationProps } from './organization.types';
@@ -9,7 +8,7 @@ export class OrganizationEntity extends AggregateRoot<OrganizationProps> {
   protected readonly _id: AggregateID;
 
   static create(createOrganizationProps: CreateOrganizationProps): OrganizationEntity {
-    const id = v4();
+    const id = uuidv4To12();
     const organizationProps: OrganizationProps = { ...createOrganizationProps };
     const organization = new OrganizationEntity({ id, props: organizationProps });
     organization.addEvent(

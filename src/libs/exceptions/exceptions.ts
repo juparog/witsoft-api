@@ -6,7 +6,8 @@ import {
   CONFLICT,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
-} from '.';
+  UNPROCESSABLE_ENTITY
+} from './exception.codes';
 import { ExceptionBase } from './exception.base';
 
 /**
@@ -48,6 +49,16 @@ export class ArgumentOutOfRangeException extends ExceptionBase {
  */
 export class ConflictException extends ExceptionBase {
   readonly code = CONFLICT;
+}
+
+/**
+ * Se utiliza para indicar entidades en conflicto (normalmente en la base de datos)
+ *
+ * @class ConflictException
+ * @extends {ExceptionBase}
+ */
+export class UnprocessableEntityException extends ExceptionBase {
+  readonly code = UNPROCESSABLE_ENTITY;
 }
 
 /**

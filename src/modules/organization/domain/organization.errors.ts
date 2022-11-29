@@ -9,3 +9,13 @@ export class OrganizationAlreadyExistsError extends ExceptionBase {
     super(OrganizationAlreadyExistsError.message, cause, metadata);
   }
 }
+
+export class OrganizationUnprocessableError extends ExceptionBase {
+  static readonly message = 'Organization is unprocessable';
+
+  public readonly code = 'ORGANIZATION.UNPROCESSABLE_ENTITY';
+
+  constructor(cause?: Error, metadata?: unknown) {
+    super(OrganizationUnprocessableError.message, cause, metadata);
+  }
+}

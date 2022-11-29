@@ -1,7 +1,7 @@
-import { ArgumentNotProvidedException } from '../exceptions';
 import { Guard } from '@witsoft/libs/guards/guard';
-import { v4 } from 'uuid';
+import { uuidv4To12 } from '@witsoft/libs/utils';
 import { RequestContextService } from '@witsoft/libs/application/context/AppRequestContext';
+import { ArgumentNotProvidedException } from '@witsoft/libs/exceptions';
 
 export type DomainEventProps<T> = Omit<
   T,
@@ -36,7 +36,7 @@ export abstract class DomainEvent {
         'DomainEvent props should not be empty',
       );
     }
-    this.id = v4();
+    this.id = uuidv4To12();
     this.aggregateId = props.aggregateId;
     this.timestamp = props.timestamp || Date.now();
     this.correlationId =

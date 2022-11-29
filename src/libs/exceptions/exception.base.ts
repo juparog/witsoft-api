@@ -23,6 +23,7 @@ export abstract class ExceptionBase extends Error {
 
   /**
    * @param {string} message
+   * @param {Error} cause
    * @param {ObjectLiteral} [metadata={}]
    */
   constructor(

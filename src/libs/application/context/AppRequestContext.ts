@@ -1,10 +1,9 @@
 import { RequestContext } from 'nestjs-request-context';
-import { Model } from 'mongoose';
+import { Connection } from 'mongoose';
 
 export class AppRequestContext extends RequestContext {
   requestId: string;
-  transactionConnection?: Model<unknown>;
-
+  transactionConnection?: Connection;
 }
 
 export class RequestContextService {
@@ -22,13 +21,13 @@ export class RequestContextService {
     return this.getContext().requestId;
   }
 
-  static getTransactionConnection(): Model<unknown> | undefined {
+  static getTransactionConnection(): Connection | undefined {
     const ctx = this.getContext();
     return ctx.transactionConnection;
   }
 
   static setTransactionConnection(
-    transactionConnection?: Model<unknown>,
+    transactionConnection?: Connection,
   ): void {
     const ctx = this.getContext();
     ctx.transactionConnection = transactionConnection;

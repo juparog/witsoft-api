@@ -1,16 +1,25 @@
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
+import { RequestContextModule } from 'nestjs-request-context';
 
 import { OrganizationModule } from '@witsoft/modules/organization/organization.module';
-import { RequestContextModule } from 'nestjs-request-context';
+import { DbConfigModule } from '@witsoft/config/db-config/db-config.module';
+import { DbConfigService } from '@witsoft/config/db-config/db-config.service';
+import { ContextInterceptor } from '@witsoft/libs/application/context/ContextInterceptor';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Test1Module } from './modules/test1/test1.module';
-import { DbConfigModule } from './configs/db-config/db-config.module';
-import { DbConfigService } from './configs/db-config/db-config.service';
+
+const interceptors = [
+  {
+    provide: APP_INTERCEPTOR,
+    useClass: ContextInterceptor,
+  }
+];
 
 @Module({
   imports: [
@@ -24,18 +33,20 @@ import { DbConfigService } from './configs/db-config/db-config.service';
           uri: dbConfig.mongoUri,
           useNewUrlParser: true,
           useUnifiedTopology: true,
-          useFindAndModify: false,
           loggerLevel: dbConfig.loggerLevel,
         };
       },
-      inject: [DbConfigModule],
+      inject: [DbConfigService],
     }),
-		EventEmitterModule.forRoot(),
-		RequestContextModule,
+    EventEmitterModule.forRoot(),
+    RequestContextModule,
     Test1Module,
     OrganizationModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [
+    AppService,
+    ...interceptors
+  ],
 })
 export class AppModule {}

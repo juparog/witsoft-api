@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
 
 import { Mapper } from '@witsoft/libs/ddd';
+import { Types as MongoTypes } from 'mongoose';
 
 import { OrganizationModelType } from './database/organization.repository';
 import { OrganizationEntity } from './domain/organization.entity';
@@ -13,7 +13,7 @@ export class OrganizationMapper
 {
   toPersistence(entity: OrganizationEntity): OrganizationModelType {
     const copy = entity.getPropsCopy();
-    const record: OrganizationModelType = new Model({
+    const record: OrganizationModelType = {
       _id: copy.id,
       createdAt: copy.createdAt,
       updatedAt: copy.updatedAt,
@@ -21,7 +21,7 @@ export class OrganizationMapper
       name: copy.name,
       password: copy.password,
       workspace: copy.workspace
-    });
+    };
     return record;
   }
 
@@ -31,10 +31,10 @@ export class OrganizationMapper
       createdAt: new Date(record.createdAt),
       updatedAt: new Date(record.updatedAt),
       props: {
-        email: record.schema.obj.email.toString(),
-        name: record.schema.obj.name.toString(),
-        password: record.schema.obj.password.toString(),
-        workspace: record.schema.obj.workspace.toString()
+        email: record.email.toString(),
+        name: record.name.toString(),
+        password: record.password.toString(),
+        workspace: record.workspace.toString()
       },
     });
     return entity;

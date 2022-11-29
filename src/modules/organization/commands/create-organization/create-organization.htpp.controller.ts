@@ -3,6 +3,7 @@ import {
   Post,
   Body,
 	ConflictException as ConflictHttpException,
+  BadRequestException as BadRequestHttpException,
   HttpStatus
 } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
@@ -12,7 +13,10 @@ import { routesV1 } from '@witsoft/config/app.routes';
 import { ApiErrorResponse, IdResponse } from '@witsoft/libs/api';
 import { AggregateID } from '@witsoft/libs/ddd/';
 import { BadRequestException, InternalServerErrorException } from '@witsoft/libs/exceptions/exceptions';
-import { OrganizationAlreadyExistsError } from '@witsoft/modules/organization/domain/organization.errors';
+import {
+  OrganizationAlreadyExistsError,
+  OrganizationUnprocessableError
+} from '@witsoft/modules/organization/domain/organization.errors';
 
 import { CreateOrganizationRequestDto } from './create-organization.request.dto';
 import { CreateOrganizationCommand } from './create-organization.command';
@@ -50,13 +54,21 @@ export class CreateOrganizationHttpController {
   async create(@Body() createOrganizationRequestDto: CreateOrganizationRequestDto): Promise<IdResponse> {
 		const command = new CreateOrganizationCommand(createOrganizationRequestDto);
 
-		const result: Result<AggregateID, OrganizationAlreadyExistsError> = await this.commandBus.execute(command);
+		const result: Result<
+      AggregateID,
+      OrganizationAlreadyExistsError |
+      OrganizationUnprocessableError
+    > = await this.commandBus.execute(command);
 
     return match(result, {
       Ok: (id: string) => new IdResponse(id),
       Err: (error: Error) => {
-        if (error instanceof OrganizationAlreadyExistsError)
+        if (error instanceof OrganizationAlreadyExistsError) {
           throw new ConflictHttpException(error.message);
+        }
+        if (error instanceof OrganizationUnprocessableError) {
+          throw new BadRequestHttpException(error.message);
+        }
         throw error;
       },
     });
