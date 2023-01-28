@@ -1,19 +1,21 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "es2021",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/config/*": ["src/services/config/*"],
-      "@/modules/*": ["src/modules/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@witsoft/config/*": ["src/configs/*"],
+      "@witsoft/modules/*": ["src/modules/*"],
+      "@witsoft/services/*": ["src/services/*"],
+      "@witsoft/libs/*": ["src/libs/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
