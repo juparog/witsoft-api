@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 
-import dbFeature from './db-config.feature';
-import { DbConfigService } from './db-config.service';
+import dbFeature from "./db-config.feature";
+import { DbConfigService } from "./db-config.service";
 
 @Module({
   imports: [ConfigModule.forFeature(dbFeature)],

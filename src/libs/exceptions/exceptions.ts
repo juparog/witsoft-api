@@ -1,14 +1,14 @@
 import {
-  ARGUMENT_INVALID,
-  ARGUMENT_NOT_PROVIDED,
-  ARGUMENT_OUT_OF_RANGE,
+	ARGUMENT_INVALID,
+	ARGUMENT_NOT_PROVIDED,
+	ARGUMENT_OUT_OF_RANGE,
 	BAD_REQUEST,
-  CONFLICT,
-  INTERNAL_SERVER_ERROR,
-  NOT_FOUND,
-  UNPROCESSABLE_ENTITY
-} from './exception.codes';
-import { ExceptionBase } from './exception.base';
+	CONFLICT,
+	INTERNAL_SERVER_ERROR,
+	NOT_FOUND,
+	UNPROCESSABLE_ENTITY,
+} from "./exception.codes";
+import { ExceptionBase } from "./exception.base";
 
 /**
  * Se utiliza para indicar que se proporcionó un argumento incorrecto a un constructor de método/función/clase
@@ -17,7 +17,7 @@ import { ExceptionBase } from './exception.base';
  * @extends {ExceptionBase}
  */
 export class ArgumentInvalidException extends ExceptionBase {
-  readonly code = ARGUMENT_INVALID;
+	readonly code = ARGUMENT_INVALID;
 }
 
 /**
@@ -27,7 +27,7 @@ export class ArgumentInvalidException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class ArgumentNotProvidedException extends ExceptionBase {
-  readonly code = ARGUMENT_NOT_PROVIDED;
+	readonly code = ARGUMENT_NOT_PROVIDED;
 }
 
 /**
@@ -38,7 +38,7 @@ export class ArgumentNotProvidedException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class ArgumentOutOfRangeException extends ExceptionBase {
-  readonly code = ARGUMENT_OUT_OF_RANGE;
+	readonly code = ARGUMENT_OUT_OF_RANGE;
 }
 
 /**
@@ -48,7 +48,7 @@ export class ArgumentOutOfRangeException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class ConflictException extends ExceptionBase {
-  readonly code = CONFLICT;
+	readonly code = CONFLICT;
 }
 
 /**
@@ -58,7 +58,7 @@ export class ConflictException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class UnprocessableEntityException extends ExceptionBase {
-  readonly code = UNPROCESSABLE_ENTITY;
+	readonly code = UNPROCESSABLE_ENTITY;
 }
 
 /**
@@ -68,13 +68,13 @@ export class UnprocessableEntityException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class NotFoundException extends ExceptionBase {
-  static readonly message = 'Not found';
+	static readonly message = "Not found";
 
-  constructor(message = NotFoundException.message) {
-    super(message);
-  }
+	constructor(message = NotFoundException.message) {
+		super(message);
+	}
 
-  readonly code = NOT_FOUND;
+	readonly code = NOT_FOUND;
 }
 
 /**
@@ -84,13 +84,13 @@ export class NotFoundException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class BadRequestException extends ExceptionBase {
-  static readonly message = 'Bad request';
+	static readonly message = "Bad request";
 
-  constructor(message = BadRequestException.message) {
-    super(message);
-  }
+	constructor(message = BadRequestException.message) {
+		super(message);
+	}
 
-  readonly code = BAD_REQUEST;
+	readonly code = BAD_REQUEST;
 }
 
 /**
@@ -100,11 +100,11 @@ export class BadRequestException extends ExceptionBase {
  * @extends {ExceptionBase}
  */
 export class InternalServerErrorException extends ExceptionBase {
-  static readonly message = 'Internal server error';
+	static readonly message = "Internal server error";
 
-  constructor(message = InternalServerErrorException.message) {
-    super(message);
-  }
+	constructor(message = InternalServerErrorException.message) {
+		super(message);
+	}
 
-  readonly code = INTERNAL_SERVER_ERROR;
+	readonly code = INTERNAL_SERVER_ERROR;
 }
