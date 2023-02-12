@@ -1,28 +1,28 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { ResponseBase } from '@witsoft/libs/api/response.base';
+import { ApiProperty } from "@nestjs/swagger";
+import { ResponseBase } from "@witsoft/libs/api/response.base";
 
 export class OrganizationResponseDto extends ResponseBase {
-  @ApiProperty({
-    example: 'banco-test@gmail.com',
+	@ApiProperty({
+    example: 'witsoft@email.com',
     description: "Organization's email address",
   })
-  email: string;
+	email: string;
 
-  @ApiProperty({
-    example: 'Banco Test',
+	@ApiProperty({
+    example: 'Witsoft',
     description: "Organization's name",
   })
-  name: string;
+	name: string;
 
-  @ApiProperty({
-    example: 'Abc123.!',
-    description: 'Key access',
-  })
-  password: string;
+	// @ApiProperty({
+	//   example: 'Abc123.!',
+	//   description: 'Access password',
+	// })
+	// password: string;
 
-  @ApiProperty({
-    example: 'banco-test',
+	@ApiProperty({
+    example: 'witsoft',
     description: 'Domain name or organization workspace',
   })
-  workspace: string;
+	workspace: string;
 }

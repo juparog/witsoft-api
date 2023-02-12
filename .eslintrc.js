@@ -6,13 +6,13 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['@typescript-eslint/eslint-plugin', 'import'],
-  'settings': {
+  settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx']
     },
     'import/resolver': {
-      'typescript': {
-        'alwaysTryTypes': true,
+      typescript: {
+        alwaysTryTypes: true
       }
     }
   },
@@ -20,7 +20,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:import/recommended',
-    'plugin:import/typescript',
+    'plugin:import/typescript'
   ],
   root: true,
   env: {
@@ -38,28 +38,29 @@ module.exports = {
     'import/order': [
       'error',
       {
-				alphabetize: {
-					order: 'asc',
-					caseInsensitive: true,
-				},
-				groups: [
-					'builtin',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true
+        },
+        groups: [
+          'builtin',
           'external',
           'internal',
           ['sibling', 'parent'],
           'index',
-          'unknown',s
+          'unknown',
+          s
         ],
         newlinesBetween: 'always',
-				pathGroups: [
-					{
-						'pattern': '@witsoft/**',
-						'group': 'external',
-						'position': 'after'
-					}
-				],
-      },
+        pathGroups: [
+          {
+            pattern: '@witsoft/**',
+            group: 'external',
+            position: 'after'
+          }
+        ]
+      }
     ],
-    'prettier/prettier': 'error',
+    'prettier/prettier': 'error'
   }
 };

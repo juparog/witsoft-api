@@ -15,3 +15,8 @@ coverage
 .editorconfig
 Dockerfile
 README.md
+
+# linter
+.eslintrc.js
+.prettierrc
+rome.json

@@ -1,66 +1,66 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 import {
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsPositive,
-  IsString
-} from 'class-validator';
+	IsEnum,
+	IsInt,
+	IsOptional,
+	IsPositive,
+	IsString,
+} from "class-validator";
 
-import { ValidatedConfigService } from '@witsoft/config/validated-config.service';
+import { ValidatedConfigService } from "@witsoft/config/validated-config.service";
 
 enum Environment {
-  Development = 'development',
-  Production = 'production'
+	Development = "development",
+	Production = "production",
 }
 
 @Injectable()
 export class AppConfigService extends ValidatedConfigService {
-  constructor(private configService: ConfigService) {
-    super();
-  }
+	constructor(private configService: ConfigService) {
+		super();
+	}
 
-  @IsEnum(Environment)
-  get nodeEnv(): string {
-    return this.configService.get<string>('app.nodeEnv');
-  }
+	@IsEnum(Environment)
+	get nodeEnv(): string {
+		return this.configService.get<string>("app.nodeEnv");
+	}
 
-  @IsString()
+	@IsString()
   @IsOptional()
-  get host(): string {
-    return this.configService.get<string>('app.host');
-  }
+	get host(): string {
+		return this.configService.get<string>("app.host");
+	}
 
-  @IsInt()
+	@IsInt()
   @IsPositive()
   @IsOptional()
-  get port(): number {
-    return this.configService.get<number>('app.port');
-  }
+	get port(): number {
+		return this.configService.get<number>("app.port");
+	}
 
-  @IsString()
+	@IsString()
   @IsOptional()
-  get apiName(): string {
-    return this.configService.get<string>('app.apiName');
-  }
+	get apiName(): string {
+		return this.configService.get<string>("app.apiName");
+	}
 
-  @IsString()
+	@IsString()
   @IsOptional()
-  get apiDescription(): string {
-    return this.configService.get<string>('app.apiDescription');
-  }
+	get apiDescription(): string {
+		return this.configService.get<string>("app.apiDescription");
+	}
 
-  @IsString()
+	@IsString()
   @IsOptional()
-  get apiVersion(): string {
-    return this.configService.get<string>('app.apiVersion');
-  }
+	get apiVersion(): string {
+		return this.configService.get<string>("app.apiVersion");
+	}
 
-  @IsString()
+	@IsString()
   @IsOptional()
-  get apiPrefix(): string {
-    return this.configService.get<string>('app.apiPrefix');
-  }
+	get apiPrefix(): string {
+		return this.configService.get<string>("app.apiPrefix");
+	}
 }

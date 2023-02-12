@@ -1,7 +1,6 @@
-###################
-# BUILD PARA EL DESARROLLO LOCAL
-###################
-
+#########################
+# INSTALAR DEPENDENCIAS #
+#########################
 FROM node:19-alpine As development
 
 WORKDIR /usr/src/app
@@ -9,16 +8,16 @@ WORKDIR /usr/src/app
 COPY --chown=node:node package*.json ./
 
 RUN rm -rf node_modules && \
-	yarn install --frozen-lockfile
+  yarn config set "strict-ssl" false -g &&\
+  yarn install --frozen-lockfile
 
 COPY --chown=node:node . .
 
 USER node
 
-###################
-# BUILD PARA PRODUCCION
-###################
-
+############################
+# COMPILAR PARA PRODUCCION #
+############################
 FROM node:19-alpine As build
 
 WORKDIR /usr/src/app
@@ -33,17 +32,18 @@ RUN yarn build
 
 ENV NODE_ENV production
 
-RUN rm -rf node_modules && \
-	yarn install --frozen-lockfile --production && \
-	yarn cache clean --all
+RUN yarn config set "strict-ssl" false -g &&\
+  yarn install --frozen-lockfile --production && \
+  yarn cache clean --all
 
 USER node
 
-###################
-# PRODUCCION
-###################
-
+######################
+# EJECUTA APLICACION #
+######################
 FROM node:19-alpine As production
+
+WORKDIR /app
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
