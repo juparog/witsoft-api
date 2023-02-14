@@ -1,18 +1,18 @@
 import {
 	HttpStatus,
+	NotFoundException as NotFoundHttpException,
 	ConflictException as ConflictHttpException,
 	BadRequestException as BadRequestHttpException,
 } from "@nestjs/common";
 
 import { ExceptionBase } from "@witsoft/libs/exceptions";
-import { ObjectLiteral } from "@witsoft/libs/types/object-literal.type";
 
 export class OrganizationAlreadyExistsError extends ExceptionBase {
 	static readonly message = "Organization already exists";
 
 	public readonly code = "ORGANIZATION.ALREADY_EXISTS";
 
-	constructor(cause?: Error, metadata?: ObjectLiteral[]) {
+	constructor(cause?: Error, metadata?: string[]) {
 		super(OrganizationAlreadyExistsError.message, cause, metadata);
 	}
 }
@@ -22,30 +22,31 @@ export class OrganizationUnprocessableError extends ExceptionBase {
 
 	public readonly code = "ORGANIZATION.UNPROCESSABLE_ENTITY";
 
-	constructor(cause?: Error, metadata?: ObjectLiteral[]) {
+	constructor(cause?: Error, metadata?: string[]) {
 		super(OrganizationUnprocessableError.message, cause, metadata);
 	}
 }
 
-export const validateOrganizationError = (error: ExceptionBase) => {
-	const subErrors: string[] = error.metadata.map((obj: ObjectLiteral) =>
-		typeof obj.message === "string" ? obj.message : undefined,
-	);
+export class OrganizationNotFoundError extends ExceptionBase {
+	static readonly message = "Organization not found";
 
-	if (error instanceof OrganizationAlreadyExistsError) {
-		throw new ConflictHttpException({
-			statusCode: HttpStatus.CONFLICT,
-			message: error.message,
-			error: "Conflict",
-			subErrors: subErrors,
-		});
+	public readonly code = "ORGANIZATION.NOT_FOUND";
+
+	constructor(cause?: Error, metadata?: string[]) {
+		super(OrganizationNotFoundError.message, cause, metadata);
 	}
-	if (error instanceof OrganizationUnprocessableError) {
-		throw new BadRequestHttpException({
-			statusCode: HttpStatus.BAD_REQUEST,
-			message: error.message,
-			error: "Bad Request",
-			subErrors: subErrors,
-		});
+}
+
+export class OrganizationErrorHandler {
+	static validateOrganizationError(error: ExceptionBase) {
+		if (error instanceof OrganizationAlreadyExistsError) {
+			throw new ConflictHttpException(error.metadata);
+		}
+		if (error instanceof OrganizationUnprocessableError) {
+			throw new BadRequestHttpException(error.metadata);
+		}
+		if (error instanceof OrganizationNotFoundError) {
+			throw new NotFoundHttpException(error.metadata);
+		}
 	}
-};
+}

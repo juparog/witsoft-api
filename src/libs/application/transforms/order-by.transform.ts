@@ -20,7 +20,7 @@ export const OrderByTransform = ({ value, key: field }: TransformFnParams) => {
 			throw new BadRequestHttpException([
 				`Error validating ${field}, the key ${key} is not of the supported type ${JSON.stringify(
 					OrderByOptions,
-				)}`,
+				).replaceAll('"', "'")}`,
 			]);
 		}
 	}

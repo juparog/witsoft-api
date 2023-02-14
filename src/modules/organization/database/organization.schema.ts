@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, now } from "mongoose";
+import { HydratedDocument, now, model } from "mongoose";
 
 export type OrganizationDocument = HydratedDocument<Organization>;
 
-@Schema({ timestamps: true, id: true })
+@Schema({ timestamps: true })
 export class Organization {
 	@Prop({
     type: String,
@@ -32,11 +32,11 @@ export class Organization {
 
 	@Prop({
 		type: String,
-		required: "Please provide the workspace for the organization.",
+		required: "Please provide the domain for the organization.",
 		unique: "The {PATH} {VALUE} is already registered.",
 		trim: (str: string) => str.trim()
 	})
-	workspace: string;
+	domain: string;
 
 	@Prop({default: now()})
 	createdAt: Date;
@@ -46,3 +46,5 @@ export class Organization {
 }
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization);
+
+export const OrganizationModel = model(Organization.name, OrganizationSchema);

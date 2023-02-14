@@ -16,5 +16,6 @@ export const routesV1 = {
 	},
 	organization: {
 		root: organizationRoot,
+		findById: `${organizationRoot}/:id`,
 	},
 };

@@ -8,13 +8,13 @@ export class CreateOrganizationCommand extends Command {
 
 	readonly password: string;
 
-	readonly workspace: string;
+	readonly domain: string;
 
 	constructor(props: CommandProps<CreateOrganizationRequestDto>) {
 		super(props);
 		this.email = props.email;
 		this.name = props.name;
 		this.password = props.password;
-		this.workspace = props.workspace;
+		this.domain = props.domain;
 	}
 }

@@ -7,6 +7,8 @@ import { OrganizationRepository } from "./database/organization.repository";
 import { OrganizationMapper } from "./organization.mapper";
 import { FindOrganizationsHttpController } from "./queries/find-organizations/find-organizations.http.controller";
 import { FindOrganizationsQueryHandler } from "./queries/find-organizations/find-organizations.query-handler";
+import { FindOrganizationByIdHttpController } from "./queries/find-organization-by-id/find-organization-by-id.http.controller";
+import { FindOrganizationByIdQueryHandler } from "./queries/find-organization-by-id/find-organization-by-id.query-handler";
 import {
 	Organization,
 	OrganizationSchema,
@@ -18,11 +20,15 @@ import {
 } from "./commands/create-organization/";
 
 const httpControllers = [
+	FindOrganizationByIdHttpController,
 	FindOrganizationsHttpController,
 	CreateOrganizationHttpController,
 ];
 const commandHandlers: Provider[] = [CreateOrganizationService];
-const queryHandlers: Provider[] = [FindOrganizationsQueryHandler];
+const queryHandlers: Provider[] = [
+	FindOrganizationsQueryHandler,
+	FindOrganizationByIdQueryHandler,
+];
 const mappers: Provider[] = [OrganizationMapper];
 const repositories: Provider[] = [
 	{ provide: ORGANIZATION_REPOSITORY, useClass: OrganizationRepository },

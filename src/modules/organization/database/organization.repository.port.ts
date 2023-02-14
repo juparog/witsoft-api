@@ -4,7 +4,7 @@ import { OrganizationEntity } from "@witsoft/modules/organization/domain/organiz
 export interface FindOrganizationsParams extends PaginatedQueryParams {
 	readonly email?: string;
 	readonly name?: string;
-	readonly workspace?: string;
+	readonly domain?: string;
 }
 
 export interface OrganizationRepositoryPort

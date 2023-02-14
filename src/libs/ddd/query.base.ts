@@ -19,7 +19,7 @@ export abstract class PaginatedQueryBase extends QueryBase {
 		this.limit = props.limit || 20;
 		this.offset = props.page ? props.page * this.limit : 0;
 		this.page = props.page || 0;
-		this.orderBy = props.orderBy || { createdAt: 'asc' };
+		this.orderBy = props.orderBy || { createdAt: "asc" };
 	}
 }
 

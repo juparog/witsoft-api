@@ -25,7 +25,7 @@ export class OrganizationEntity extends AggregateRoot<OrganizationProps> {
 				email: organizationProps.email,
 				name: organizationProps.name,
 				password: organizationProps.password,
-				workspace: organizationProps.workspace,
+				domain: organizationProps.domain,
 			}),
 		);
 		return organization;

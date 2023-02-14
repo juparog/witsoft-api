@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
 	MaxLength,
 	IsString,
@@ -8,24 +8,24 @@ import {
 } from "class-validator";
 
 export class FindOrganizationsRequestDto {
-  @IsOptional()
+	@IsOptional()
   @IsEmail()
   @MaxLength(320)
   @MinLength(5)
 	@ApiPropertyOptional({ example: 'witsoft.group@google.com', description: 'User email address' })
 	readonly email: string;
 
-  @IsOptional()
+	@IsOptional()
   @IsString()
   @MaxLength(50)
   @MinLength(1)
 	@ApiPropertyOptional({ example: 'Witsoft Group', description: 'Organization name' })
 	readonly name: string;
 
-  @IsOptional()
+	@IsOptional()
 	@IsString()
   @MaxLength(50)
   @MinLength(5)
-	@ApiPropertyOptional({ example: 'witsoft-group', description: 'Domain name or organization workspace' })
-	readonly workspace: string;
+	@ApiPropertyOptional({ example: 'witsoft-group', description: 'Domain name or organization domain' })
+	readonly domain: string;
 }

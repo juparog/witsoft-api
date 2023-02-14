@@ -4,6 +4,7 @@ import { Err, Ok, Result } from "oxide.ts";
 
 import { AggregateID } from "@witsoft/libs/ddd";
 import {
+	ConflictException,
 	UnprocessableEntityException,
 	InternalServerErrorException,
 } from "@witsoft/libs/exceptions";
@@ -39,7 +40,7 @@ export class CreateOrganizationService implements ICommandHandler {
 			email: command.email,
 			name: command.name,
 			password: command.password,
-			workspace: command.workspace,
+			domain: command.domain,
 		});
 
 		try {
@@ -47,17 +48,14 @@ export class CreateOrganizationService implements ICommandHandler {
 				this.organizationRepo.insert(organization),
 			);
 			return Ok(organization.id);
-		} catch (error: unknown) {
+		} catch (error) {
 			if (error instanceof UnprocessableEntityException) {
-				const hasUniqueConstraintError = error.metadata.some(
-					(obj) => obj.type === "unique",
-				);
-				if (hasUniqueConstraintError) {
-					return Err(new OrganizationAlreadyExistsError(error, error.metadata));
-				}
 				return Err(new OrganizationUnprocessableError(error, error.metadata));
 			}
-			throw error;
+			if (error instanceof ConflictException) {
+				return Err(new OrganizationAlreadyExistsError(error, error.metadata));
+			}
+			throw Err(error);
 		}
 	}
 }
