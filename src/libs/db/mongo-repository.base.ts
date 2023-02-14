@@ -104,20 +104,16 @@ export abstract class MongoRepositoryBase<
 			return entityIds.length === 1 ? entityIds[0] : entityIds;
 		} catch (error) {
 			if (error instanceof MongoError.ValidationError) {
-				const subErrors = CustomMongoMapper.mongoFormatSubErrors(error);
-				subErrors.forEach((error) => {
+				const validationError =
+					CustomMongoMapper.processValidationTypeErrors(error);
+
+				validationError.metadata?.forEach((error) => {
 					this.logger.error(
-						`[${RequestContextService.getRequestId()}] ${error.field} ::: ${
-							error.message
-						}`,
+						`[${RequestContextService.getRequestId()}] ${error}`,
 					);
 				});
 
-				throw new UnprocessableEntityException(
-					"Record already exists",
-					error,
-					subErrors,
-				);
+				throw validationError;
 			}
 			throw error;
 		}

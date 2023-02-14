@@ -30,7 +30,7 @@ export class PaginatedQueryRequestDto {
   @Transform(params => OrderByTransform(params))
   @ApiPropertyOptional({
     type: 'object',
-    example: { workspace: "asc", createdAt: "desc" },
+    example: { domain: "asc", createdAt: "desc" },
     description: 'Order query',
     required: false,
   })

@@ -9,12 +9,13 @@ import { OrganizationEntity } from "../domain/organization.entity";
 import { OrganizationMapper } from "../organization.mapper";
 import { Organization } from "./organization.schema";
 import { OrganizationSchema } from "./organization.schema";
+import { OrganizationRepositoryPort } from "./organization.repository.port";
 
 @Injectable()
-export class OrganizationRepository extends MongoRepositoryBase<
-	OrganizationEntity,
-	Organization
-> {
+export class OrganizationRepository
+	extends MongoRepositoryBase<OrganizationEntity, Organization>
+	implements OrganizationRepositoryPort
+{
 	protected mongoSchema: Schema = OrganizationSchema;
 	protected modelName: string = Organization.name;
 
@@ -25,5 +26,9 @@ export class OrganizationRepository extends MongoRepositoryBase<
 		eventEmitter: EventEmitter2,
 	) {
 		super(pool, mapper, eventEmitter, new Logger(OrganizationRepository.name));
+	}
+
+	findOneByEmail(email: string): Promise<OrganizationEntity> {
+		throw new Error("Method not implemented.");
 	}
 }

@@ -1,29 +1,30 @@
 import { Injectable } from "@nestjs/common";
 
 import { Mapper } from "@witsoft/libs/ddd";
-import { Types as MongoTypes } from "mongoose";
 
 import { OrganizationEntity } from "./domain/organization.entity";
 import { OrganizationResponseDto } from "./dtos/organization.response.dto";
 import {
 	OrganizationDocument,
-	Organization,
+  OrganizationModel,
 } from "./database/organization.schema";
+import { Types } from "mongoose";
 
 @Injectable()
 export class OrganizationMapper
-	implements Mapper<OrganizationEntity, Organization, OrganizationResponseDto>
+	implements Mapper<OrganizationEntity, OrganizationDocument, OrganizationResponseDto>
 {
-	toPersistence(entity: OrganizationEntity): Organization {
+	toPersistence(entity: OrganizationEntity): OrganizationDocument {
 		const copy = entity.getPropsCopy();
-		const record: Organization = {
+    const record = new OrganizationModel({
 			email: copy.email,
 			name: copy.name,
 			password: copy.password,
-			workspace: copy.workspace,
+			domain: copy.domain,
 			createdAt: copy.createdAt,
 			updatedAt: copy.updatedAt,
-		};
+		});
+    record._id = new Types.ObjectId(entity.id);
 		return record;
 	}
 
@@ -36,7 +37,7 @@ export class OrganizationMapper
 				email: record.email.toString(),
 				name: record.name.toString(),
 				password: record.password.toString(),
-				workspace: record.workspace.toString(),
+				domain: record.domain.toString(),
 			},
 		});
 		return entity;
@@ -47,7 +48,7 @@ export class OrganizationMapper
 		const response = new OrganizationResponseDto(entity);
 		response.email = props.email;
 		response.name = props.name;
-		response.workspace = props.workspace;
+		response.domain = props.domain;
 		return response;
 	}
 }

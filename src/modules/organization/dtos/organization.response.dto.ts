@@ -2,6 +2,17 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ResponseBase } from "@witsoft/libs/api/response.base";
 
 export class OrganizationResponseDto extends ResponseBase {
+	// constructor(props: OrganizationResponseDto) {
+	// 	super({
+	// 		id: props.id,
+	// 		createdAt: new Date(props.createdAt),
+	// 		updatedAt: new Date(props.updatedAt),
+	// 	});
+	// 	this.name = props.name;
+	// 	this.email = this.email;
+	// 	this.domain = props.domain;
+	// }
+
 	@ApiProperty({
     example: 'witsoft@email.com',
     description: "Organization's email address",
@@ -14,15 +25,9 @@ export class OrganizationResponseDto extends ResponseBase {
   })
 	name: string;
 
-	// @ApiProperty({
-	//   example: 'Abc123.!',
-	//   description: 'Access password',
-	// })
-	// password: string;
-
 	@ApiProperty({
     example: 'witsoft',
-    description: 'Domain name or organization workspace',
+    description: 'Domain name or organization domain',
   })
-	workspace: string;
+	domain: string;
 }

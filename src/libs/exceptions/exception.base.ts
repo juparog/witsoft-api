@@ -1,5 +1,4 @@
 import { RequestContextService } from "@witsoft/libs/application/context/AppRequestContext";
-import { ObjectLiteral } from "@witsoft/libs/types/object-literal.type";
 
 export interface SerializedException {
 	message: string;
@@ -25,21 +24,17 @@ export abstract class ExceptionBase extends Error {
 	/**
 	 * @param {string} message
 	 * @param {Error} cause
-	 * @param {ObjectLiteral} [metadata={}]
+	 * @param {string[]} [metadata=[]]
 	 */
 	constructor(
 		readonly message: string,
 		readonly cause?: Error,
-		readonly metadata?: ObjectLiteral[],
+		readonly metadata?: string[],
 	) {
 		super(message);
 		Error.captureStackTrace(this, this.constructor);
 		const ctx = RequestContextService.getContext();
 		this.correlationId = ctx.requestId;
-	}
-
-	addMetadata(obj: ObjectLiteral) {
-		this.metadata.push(obj);
 	}
 
 	toJSON(): SerializedException {

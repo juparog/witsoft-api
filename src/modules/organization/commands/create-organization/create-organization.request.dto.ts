@@ -29,9 +29,9 @@ export class CreateOrganizationRequestDto {
   @NotContains(' ')
 	readonly password: string;
 
-	@ApiProperty({ example: 'witsoft-group', description: 'Domain name or organization workspace' })
+	@ApiProperty({ example: 'witsoft-group', description: 'Domain name or organization domain' })
 	@IsString()
   @MaxLength(50)
   @MinLength(5)
-	readonly workspace: string;
+	readonly domain: string;
 }

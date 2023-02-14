@@ -7,13 +7,13 @@ export class OrganizationCreatedDomainEvent extends DomainEvent {
 
 	readonly password: string;
 
-	readonly workspace: string;
+	readonly domain: string;
 
 	constructor(props: DomainEventProps<OrganizationCreatedDomainEvent>) {
 		super(props);
 		this.email = props.email;
 		this.name = props.name;
 		this.password = props.password;
-		this.workspace = props.workspace;
+		this.domain = props.domain;
 	}
 }

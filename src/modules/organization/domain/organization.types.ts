@@ -3,7 +3,7 @@ export interface OrganizationProps {
 	email: string;
 	name: string;
 	password: string;
-	workspace: string;
+	domain: string;
 }
 
 // Propiedades para crear una organizacion
@@ -11,5 +11,5 @@ export interface CreateOrganizationProps {
 	email: string;
 	name: string;
 	password: string;
-	workspace: string;
+	domain: string;
 }
