@@ -48,7 +48,7 @@ export class CustomMongoMapper {
 		error: MongoError.ValidationError,
 	): ExceptionBase {
 		const subErrors = error.message.split("||");
-		// Validar si el error es de typoentidad ya existente
+		// Validar si el error es de tipo entidad ya existente
 		const alreadyExistingTypeErrors = subErrors.filter((str) =>
 			str.includes("already"),
 		);

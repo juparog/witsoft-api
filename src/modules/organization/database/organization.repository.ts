@@ -7,13 +7,13 @@ import { MongoRepositoryBase } from "@witsoft/libs/db/";
 
 import { OrganizationEntity } from "../domain/organization.entity";
 import { OrganizationMapper } from "../organization.mapper";
-import { Organization } from "./organization.schema";
+import { Organization, OrganizationDocument } from "./organization.schema";
 import { OrganizationSchema } from "./organization.schema";
 import { OrganizationRepositoryPort } from "./organization.repository.port";
 
 @Injectable()
 export class OrganizationRepository
-	extends MongoRepositoryBase<OrganizationEntity, Organization>
+	extends MongoRepositoryBase<OrganizationEntity, OrganizationDocument>
 	implements OrganizationRepositoryPort
 {
 	protected mongoSchema: Schema = OrganizationSchema;

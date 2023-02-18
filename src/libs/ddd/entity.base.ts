@@ -22,6 +22,14 @@ export interface CreateEntityProps<T> {
 }
 
 export abstract class Entity<EntityProps> {
+	protected readonly props: EntityProps;
+
+	protected abstract _id: AggregateID;
+
+	private readonly _createdAt: Date;
+
+	private _updatedAt: Date;
+
 	constructor({
 		id,
 		createdAt,
@@ -36,14 +44,6 @@ export abstract class Entity<EntityProps> {
 		this.props = props;
 		this.validate();
 	}
-
-	protected readonly props: EntityProps;
-
-	protected abstract _id: AggregateID;
-
-	private readonly _createdAt: Date;
-
-	private _updatedAt: Date;
 
 	get id(): AggregateID {
 		return this._id;

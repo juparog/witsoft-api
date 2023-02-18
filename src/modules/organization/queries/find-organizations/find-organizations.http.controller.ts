@@ -1,12 +1,25 @@
 import { Body, Controller, Get, Query } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
-import { ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import {
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiOkResponse,
+	ApiOperation,
+	ApiTags,
+} from "@nestjs/swagger";
 import { Result } from "oxide.ts";
 
 import { routesV1 } from "@witsoft/config/app.routes";
-import { ApiErrorResponse, PaginatedQueryRequestDto, ResponseBase } from "@witsoft/libs/api";
+import {
+	ApiErrorResponse,
+	PaginatedQueryRequestDto,
+	ResponseBase,
+} from "@witsoft/libs/api";
 import { Paginated } from "@witsoft/libs/ddd";
-import { BadRequestException, InternalServerErrorException } from "@witsoft/libs/exceptions";
+import {
+	BadRequestException,
+	InternalServerErrorException,
+} from "@witsoft/libs/exceptions";
 
 import { FindOrganizationsRequestDto } from "./find-organizations.request.dto";
 import { FindOrganizationsQuery } from "./find-organizations.query-handler";

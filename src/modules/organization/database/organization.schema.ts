@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, now, model } from "mongoose";
 
-export type OrganizationDocument = HydratedDocument<Organization>;
-
 @Schema({ timestamps: true })
 export class Organization {
 	@Prop({
@@ -18,7 +16,7 @@ export class Organization {
 		unique: "The {PATH} {VALUE} is already registered.",
 		validate: {
 			validator: (email: string) =>
-				/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email),
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email),
 			message: "The {PATH} {VALUE} does not comply with the allowed format.",
 		}
   })
@@ -31,7 +29,7 @@ export class Organization {
 	password: string;
 
 	@Prop({
-		type: String,
+    type: String,
 		required: "Please provide the domain for the organization.",
 		unique: "The {PATH} {VALUE} is already registered.",
 		trim: (str: string) => str.trim()
@@ -44,6 +42,8 @@ export class Organization {
 	@Prop({default: now()})
 	updatedAt: Date;
 }
+
+export type OrganizationDocument = HydratedDocument<Organization>;
 
 export const OrganizationSchema = SchemaFactory.createForClass(Organization);
 

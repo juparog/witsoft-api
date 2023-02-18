@@ -14,7 +14,9 @@ export class OrganizationEntity extends AggregateRoot<OrganizationProps> {
 		createOrganizationProps: CreateOrganizationProps,
 	): OrganizationEntity {
 		const id = uuidv4To12();
-		const organizationProps: OrganizationProps = { ...createOrganizationProps };
+		const organizationProps: OrganizationProps = {
+			...createOrganizationProps,
+		};
 		const organization = new OrganizationEntity({
 			id,
 			props: organizationProps,

@@ -9,6 +9,10 @@ import { FindOrganizationsHttpController } from "./queries/find-organizations/fi
 import { FindOrganizationsQueryHandler } from "./queries/find-organizations/find-organizations.query-handler";
 import { FindOrganizationByIdHttpController } from "./queries/find-organization-by-id/find-organization-by-id.http.controller";
 import { FindOrganizationByIdQueryHandler } from "./queries/find-organization-by-id/find-organization-by-id.query-handler";
+import { FullUpdateOrganizationHttpController } from "./commands/full-update-organization/full-update-organization.htpp.controller";
+import { FullUpdateOrganizationService } from "./commands/full-update-organization/full-update-organization.service";
+import { PartialUpdateOrganizationService } from "./commands/partial-update-organization/partial-update-organization.service";
+import { PartialUpdateOrganizationHttpController } from "./commands/partial-update-organization/partial-update-organization.htpp.controller";
 import {
 	Organization,
 	OrganizationSchema,
@@ -22,14 +26,24 @@ import {
 const httpControllers = [
 	FindOrganizationByIdHttpController,
 	FindOrganizationsHttpController,
+	FullUpdateOrganizationHttpController,
+	PartialUpdateOrganizationHttpController,
 	CreateOrganizationHttpController,
 ];
-const commandHandlers: Provider[] = [CreateOrganizationService];
+
+const commandHandlers: Provider[] = [
+	CreateOrganizationService,
+	FullUpdateOrganizationService,
+	PartialUpdateOrganizationService,
+];
+
 const queryHandlers: Provider[] = [
 	FindOrganizationsQueryHandler,
 	FindOrganizationByIdQueryHandler,
 ];
+
 const mappers: Provider[] = [OrganizationMapper];
+
 const repositories: Provider[] = [
 	{ provide: ORGANIZATION_REPOSITORY, useClass: OrganizationRepository },
 ];

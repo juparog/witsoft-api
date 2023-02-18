@@ -1,6 +1,7 @@
 import { Option } from "oxide.ts";
 
 import { AggregateID } from "@witsoft/libs/ddd/";
+import { ClientSession, InsertManyOptions, QueryOptions } from "mongoose";
 
 export class Paginated<T> {
 	readonly count: number;
@@ -37,11 +38,26 @@ export type PaginatedQueryParams = {
 };
 
 export interface RepositoryPort<Entity> {
-	insert(entity: Entity): Promise<AggregateID | AggregateID[]>;
-	findOneById(id: string): Promise<Option<Entity>>;
 	findAll(): Promise<Entity[]>;
 	findAllPaginated(params: PaginatedQueryParams): Promise<Paginated<Entity>>;
-	delete(entity: Entity): Promise<boolean>;
+	findOneById(id: string): Promise<Option<Entity>>;
+	findByIdAndReplace(
+		id: string,
+		entity: Entity,
+		queryOptions: QueryOptions,
+	): Promise<Option<Entity>>;
+	findByIdAndUpdate(
+		id: string,
+		entity: Entity,
+		queryOptions: QueryOptions,
+	): Promise<Option<Entity>>;
 
-	transaction<T>(handler: () => Promise<T>): Promise<T>;
+	insert(
+		entity: Entity,
+		insertManyOptions?: InsertManyOptions,
+	): Promise<AggregateID | AggregateID[]>;
+
+	delete(entity: Entity, queryOptions: QueryOptions): Promise<boolean>;
+
+	transaction<T>(handler: (session: ClientSession) => Promise<T>): Promise<T>;
 }

@@ -1,5 +1,13 @@
 import { EventEmitter2 } from "@nestjs/event-emitter";
-import { Connection, Document, Error as MongoError, Schema } from "mongoose";
+import {
+	ClientSession,
+	Connection,
+	Document,
+	Error as MongoError,
+	InsertManyOptions,
+	QueryOptions,
+	Schema,
+} from "mongoose";
 import { None, Option, Some } from "oxide.ts";
 
 import { RequestContextService } from "@witsoft/libs/application/context/AppRequestContext";
@@ -11,7 +19,6 @@ import {
 	Paginated,
 	RepositoryPort,
 } from "@witsoft/libs/ddd";
-import { UnprocessableEntityException } from "@witsoft/libs/exceptions";
 
 import { LoggerPort } from "../ports/logger.port";
 import { CustomMongoMapper } from "./mongo.errors";
@@ -64,22 +71,42 @@ export abstract class MongoRepositoryBase<
 		});
 	}
 
-	async delete(entity: Aggregate): Promise<boolean> {
-		entity.validate();
-		this.logger.debug(
-			`[${RequestContextService.getRequestId()}] deleting entities ${
-				entity.id
-			} from ${this.modelName}`,
-		);
+	async findByIdAndReplace(
+		id: string,
+		entity: Aggregate,
+		queryOptions?: QueryOptions,
+	): Promise<Option<Aggregate>> {
+		const record = this.mapper.toPersistence(entity);
 		const mongoModel = this.pool.model(this.modelName, this.mongoSchema);
-		const result: unknown = await mongoModel.deleteOne({ _id: entity.id });
-		await entity.publishEvents(this.logger, this.eventEmitter);
 
-		return (result as number) > 0;
+		const result = await mongoModel.findByIdAndUpdate({ _id: id }, record, {
+			new: true,
+			...queryOptions,
+		});
+
+		return result ? Some(this.mapper.toDomain(result)) : None;
+	}
+
+	async findByIdAndUpdate(
+		id: string,
+		entity: Aggregate,
+		queryOptions?: QueryOptions,
+	): Promise<Option<Aggregate>> {
+		const record = this.mapper.toPersistence(entity);
+		const mongoModel = this.pool.model(this.modelName, this.mongoSchema);
+
+		const result: DbModel = await mongoModel.findByIdAndUpdate(
+			{ _id: id },
+			record,
+			{ new: true, ...queryOptions },
+		);
+
+		return result ? Some(this.mapper.toDomain(result)) : None;
 	}
 
 	async insert(
 		entity: Aggregate | Aggregate[],
+		insertManyOptions?: InsertManyOptions,
 	): Promise<AggregateID | AggregateID[]> {
 		const entities = Array.isArray(entity) ? entity : [entity];
 
@@ -95,7 +122,7 @@ export abstract class MongoRepositoryBase<
 
 			const records = entities.map(this.mapper.toPersistence);
 			const mongoModel = this.pool.model(this.modelName, this.mongoSchema);
-			await mongoModel.insertMany(records);
+			await mongoModel.insertMany(records, insertManyOptions);
 			await Promise.all(
 				entities.map((entity) =>
 					entity.publishEvents(this.logger, this.eventEmitter),
@@ -119,11 +146,34 @@ export abstract class MongoRepositoryBase<
 		}
 	}
 
-	public async transaction<T>(handler: () => Promise<T>): Promise<T> {
+	async delete(
+		entity: Aggregate,
+		queryOptions?: QueryOptions,
+	): Promise<boolean> {
+		entity.validate();
+		this.logger.debug(
+			`[${RequestContextService.getRequestId()}] deleting entities ${
+				entity.id
+			} from ${this.modelName}`,
+		);
+		const mongoModel = this.pool.model(this.modelName, this.mongoSchema);
+		const result: unknown = await mongoModel.deleteOne(
+			{ _id: entity.id },
+			queryOptions,
+		);
+		await entity.publishEvents(this.logger, this.eventEmitter);
+
+		return (result as number) > 0;
+	}
+
+	public async transaction<T>(
+		handler: (session: ClientSession) => Promise<T>,
+	): Promise<T> {
 		let result: T;
 		if (!RequestContextService.getTransactionConnection()) {
 			RequestContextService.setTransactionConnection(this._pool);
 		}
+
 		await this.pool.transaction(async (session) => {
 			const { id: dbSessionId } = session.id;
 			this.logger.debug(
@@ -131,16 +181,16 @@ export abstract class MongoRepositoryBase<
 			);
 
 			try {
-				result = await handler();
+				result = await handler(session);
 				this.logger.debug(
 					`[${RequestContextService.getRequestId()}] transaction committed with db session id ${dbSessionId.toUUID()}`,
 				);
 				return result;
-			} catch (e) {
+			} catch (err) {
 				this.logger.error(
-					`[${RequestContextService.getRequestId()}] transaction aborted with session id ${dbSessionId.toUUID()}`,
+					`[${RequestContextService.getRequestId()}] transaction aborted with session id ${dbSessionId.toUUID()}, ${err}`,
 				);
-				throw e;
+				throw err;
 			} finally {
 				RequestContextService.cleanTransactionConnection();
 			}

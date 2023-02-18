@@ -1,8 +1,8 @@
 import { Controller, Get, HttpStatus, Param } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import {
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
 	ApiOperation,
@@ -18,8 +18,14 @@ import { ExceptionBase } from "@witsoft/libs/exceptions/exception.base";
 import { FindOrganizationByIdQuery } from "./find-organization-by-id.query-handler";
 import { OrganizationResponseDto } from "../../dtos";
 import { OrganizationDocument } from "../../database/organization.schema";
-import { OrganizationNotFoundError, OrganizationErrorHandler } from '../../domain/organization.errors';
-import { BadRequestException, InternalServerErrorException } from "@witsoft/libs/exceptions";
+import {
+	OrganizationNotFoundError,
+	OrganizationErrorHandler,
+} from "../../domain/organization.errors";
+import {
+	BadRequestException,
+	InternalServerErrorException,
+} from "@witsoft/libs/exceptions";
 
 @ApiTags(`/${routesV1.organization.root}`)
 @Controller({
@@ -67,7 +73,7 @@ export class FindOrganizationByIdHttpController {
 				return organization;
 			},
 			Err: (error: Error) => {
-        if (error instanceof ExceptionBase) {
+				if (error instanceof ExceptionBase) {
 					OrganizationErrorHandler.validateOrganizationError(error);
 				}
 				throw error;
