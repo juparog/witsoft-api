@@ -17,5 +17,8 @@ export const routesV1 = {
 	organization: {
 		root: organizationRoot,
 		findById: `${organizationRoot}/:id`,
+		fullUpdate: `${organizationRoot}/:id`,
+		partialUpdate: `${organizationRoot}/:id`,
+		update: `${organizationRoot}/:id`,
 	},
 };

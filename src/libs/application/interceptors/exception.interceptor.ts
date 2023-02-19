@@ -24,13 +24,13 @@ export class ExceptionInterceptor implements NestInterceptor {
 			catchError((err) => {
 				// Registro con fines de depuración
 				if (err.status >= 400 && err.status < 500) {
-					this.logger.debug(
+					this.logger.error(
 						`[${RequestContextService.getRequestId()}] ${err.message}`,
 					);
 
 					const isClassValidatorError =
 						Array.isArray(err?.response?.message) &&
-						typeof err?.response?.error === "string" ;
+						typeof err?.response?.error === "string";
 
 					// Transformación de errores
 					if (isClassValidatorError) {

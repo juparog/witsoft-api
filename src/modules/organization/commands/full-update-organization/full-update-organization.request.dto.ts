@@ -1,6 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Exclude } from "class-transformer";
 import {
 	IsEmail,
+	IsOptional,
 	IsString,
 	Length,
 	MaxLength,
@@ -8,8 +10,12 @@ import {
 	NotContains,
 } from "class-validator";
 
-export class CreateOrganizationRequestDto {
-	@ApiProperty({ example: 'witsoft@email.com', description: 'User email address' })
+export class FullUpdateOrganizationRequestDto {
+	@IsOptional()
+  @Exclude()
+	readonly id: string;
+
+	@ApiProperty({ example: 'witsoft.group@google.com', description: 'User email address' })
   @IsEmail()
   @MaxLength(320)
   @MinLength(5)
@@ -32,4 +38,12 @@ export class CreateOrganizationRequestDto {
   @MaxLength(50)
   @MinLength(5)
 	readonly domain: string;
+
+	@IsOptional()
+  @Exclude()
+	readonly createdAt: Date;
+
+	@IsOptional()
+  @Exclude()
+	readonly updateAt: Date;
 }

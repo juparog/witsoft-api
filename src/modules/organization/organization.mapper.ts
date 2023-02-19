@@ -6,17 +6,18 @@ import { OrganizationEntity } from "./domain/organization.entity";
 import { OrganizationResponseDto } from "./dtos/organization.response.dto";
 import {
 	OrganizationDocument,
-  OrganizationModel,
+	OrganizationModel,
 } from "./database/organization.schema";
 import { Types } from "mongoose";
 
 @Injectable()
 export class OrganizationMapper
-	implements Mapper<OrganizationEntity, OrganizationDocument, OrganizationResponseDto>
+	implements
+		Mapper<OrganizationEntity, OrganizationDocument, OrganizationResponseDto>
 {
 	toPersistence(entity: OrganizationEntity): OrganizationDocument {
 		const copy = entity.getPropsCopy();
-    const record = new OrganizationModel({
+		const record = new OrganizationModel({
 			email: copy.email,
 			name: copy.name,
 			password: copy.password,
@@ -24,7 +25,7 @@ export class OrganizationMapper
 			createdAt: copy.createdAt,
 			updatedAt: copy.updatedAt,
 		});
-    record._id = new Types.ObjectId(entity.id);
+		record._id = new Types.ObjectId(entity.id);
 		return record;
 	}
 

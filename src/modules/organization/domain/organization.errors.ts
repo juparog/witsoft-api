@@ -40,13 +40,13 @@ export class OrganizationNotFoundError extends ExceptionBase {
 export class OrganizationErrorHandler {
 	static validateOrganizationError(error: ExceptionBase) {
 		if (error instanceof OrganizationAlreadyExistsError) {
-			throw new ConflictHttpException(error.metadata);
+			throw new ConflictHttpException(error.metadata || "Conflict", {description: error.message});
 		}
 		if (error instanceof OrganizationUnprocessableError) {
-			throw new BadRequestHttpException(error.metadata);
+			throw new BadRequestHttpException(error.metadata || "Bad Request", {description: error.message});
 		}
 		if (error instanceof OrganizationNotFoundError) {
-			throw new NotFoundHttpException(error.metadata);
+			throw new NotFoundHttpException(error.metadata || "Not Found", {description: error.message});
 		}
 	}
 }

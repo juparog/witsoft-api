@@ -1,12 +1,12 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
 import { Ok, Result, Err } from "oxide.ts";
 
 import {
 	Organization,
 	OrganizationDocument,
 } from "../../database/organization.schema";
-import { Model } from "mongoose";
 import { OrganizationNotFoundError } from "../../domain/organization.errors";
 
 export class FindOrganizationByIdQuery {

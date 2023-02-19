@@ -27,14 +27,7 @@ export class CreateOrganizationService implements ICommandHandler {
 
 	async execute(
 		command: CreateOrganizationCommand,
-	): Promise<
-		Result<
-			AggregateID,
-			| OrganizationAlreadyExistsError
-			| OrganizationUnprocessableError
-			| InternalServerErrorException
-		>
-	> {
+	): Promise<Result<AggregateID, Error>> {
 		// Agregar mas propiedades necesarias para crear la organizacion, ejemplo un rol de inicio
 		const organization = OrganizationEntity.create({
 			email: command.email,
@@ -44,9 +37,9 @@ export class CreateOrganizationService implements ICommandHandler {
 		});
 
 		try {
-			await this.organizationRepo.transaction(async () =>
-				this.organizationRepo.insert(organization),
-			);
+			await this.organizationRepo.transaction(async (session) => {
+				await this.organizationRepo.insert(organization, { session });
+			});
 			return Ok(organization.id);
 		} catch (error) {
 			if (error instanceof UnprocessableEntityException) {
