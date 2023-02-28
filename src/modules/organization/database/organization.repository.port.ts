@@ -1,5 +1,6 @@
 import { PaginatedQueryParams, RepositoryPort } from "@witsoft/libs/ddd";
 import { OrganizationEntity } from "@witsoft/modules/organization/domain/organization.entity";
+import { Option } from "oxide.ts";
 
 export interface FindOrganizationsParams extends PaginatedQueryParams {
 	readonly email?: string;
@@ -9,5 +10,5 @@ export interface FindOrganizationsParams extends PaginatedQueryParams {
 
 export interface OrganizationRepositoryPort
 	extends RepositoryPort<OrganizationEntity> {
-	findOneByEmail(email: string): Promise<OrganizationEntity | null>;
+	findOneByEmail(email: string): Promise<Option<OrganizationEntity>>;
 }

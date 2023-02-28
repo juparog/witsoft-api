@@ -63,5 +63,6 @@ const repositories: Provider[] = [
 		...repositories,
     ...mappers
   ],
+  exports:[...repositories]
 })
 export class OrganizationModule {}

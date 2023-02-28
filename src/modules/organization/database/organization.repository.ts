@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { InjectConnection } from "@nestjs/mongoose";
 import { Connection, Schema } from "mongoose";
+import { Option, Some, None } from "oxide.ts";
 
 import { MongoRepositoryBase } from "@witsoft/libs/db/";
 
@@ -28,7 +29,10 @@ export class OrganizationRepository
 		super(pool, mapper, eventEmitter, new Logger(OrganizationRepository.name));
 	}
 
-	findOneByEmail(email: string): Promise<OrganizationEntity> {
-		throw new Error("Method not implemented.");
+	async findOneByEmail(email: string): Promise<Option<OrganizationEntity>> {
+		const mongoModel = this.pool.model(this.modelName, this.mongoSchema);
+		const result = await mongoModel.findOne({ email });
+
+		return result ? Some(this.mapper.toDomain(result)) : None;
 	}
 }

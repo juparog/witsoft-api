@@ -1,4 +1,4 @@
-import { Controller, Put, Body, Param } from "@nestjs/common";
+import { Controller, Put, Body, Param, UseGuards } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import {
 	ApiBadRequestResponse,
@@ -27,6 +27,7 @@ import { FullUpdateOrganizationCommand } from "./full-update-organization.comman
 import { OrganizationNotFoundError } from "../../domain/organization.errors";
 import { OrganizationResponseDto } from "../../dtos/organization.response.dto";
 import { OrganizationMapper } from "../../organization.mapper";
+import { JwtAuthGuard } from "@witsoft/libs/application/guards/jwt-auth.guard";
 
 @ApiTags(`/${routesV1.organization.root}`)
 @Controller({
@@ -52,6 +53,7 @@ export class FullUpdateOrganizationHttpController {
 		description: InternalServerErrorException.message,
     type: ApiErrorResponse,
   })
+  @UseGuards(JwtAuthGuard)
   @Put(routesV1.organization.fullUpdate)
 	async fullUpdate(
 		@Body() fullUpdateOrganizationRequestDto: FullUpdateOrganizationRequestDto,
