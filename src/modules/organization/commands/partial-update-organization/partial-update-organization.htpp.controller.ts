@@ -1,4 +1,4 @@
-import { Controller, Body, Param, Patch } from "@nestjs/common";
+import { Controller, Body, Param, Patch, UseGuards } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import {
 	ApiBadRequestResponse,
@@ -11,8 +11,7 @@ import {
 import { match, Result } from "oxide.ts";
 
 import { routesV1 } from "@witsoft/config/app.routes";
-import { ApiErrorResponse, IdResponse, ResponseBase } from "@witsoft/libs/api";
-import { AggregateID } from "@witsoft/libs/ddd/";
+import { ApiErrorResponse } from "@witsoft/libs/api";
 import {
 	BadRequestException,
 	InternalServerErrorException,
@@ -27,6 +26,7 @@ import { PartialUpdateOrganizationCommand } from "./partial-update-organization.
 import { OrganizationNotFoundError } from "../../domain/organization.errors";
 import { OrganizationResponseDto } from "../../dtos/organization.response.dto";
 import { OrganizationMapper } from "../../organization.mapper";
+import { JwtAuthGuard } from "@witsoft/libs/application/guards/jwt-auth.guard";
 
 @ApiTags(`/${routesV1.organization.root}`)
 @Controller({
@@ -52,6 +52,7 @@ export class PartialUpdateOrganizationHttpController {
 		description: InternalServerErrorException.message,
     type: ApiErrorResponse,
   })
+  @UseGuards(JwtAuthGuard)
   @Patch(routesV1.organization.fullUpdate)
 	async fullUpdate(
 		@Body() fullUpdateOrganizationRequestDto: PartialUpdateOrganizationRequestDto,

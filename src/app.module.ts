@@ -10,6 +10,7 @@ import mongooseValidationErrorTransform from "mongoose-validation-error-transfor
 import "reflect-metadata";
 
 import { OrganizationModule } from "@witsoft/modules/organization/organization.module";
+import { AuthModule } from "@witsoft/modules/auth/auth.module";
 import { DbConfigModule } from "@witsoft/config/db-config/db-config.module";
 import { DbConfigService } from "@witsoft/config/db-config/db-config.service";
 import { ContextInterceptor } from "@witsoft/libs/application/context/ContextInterceptor";
@@ -62,7 +63,8 @@ const interceptors = [
     }),
     EventEmitterModule.forRoot(),
     RequestContextModule,
-    OrganizationModule
+    OrganizationModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [

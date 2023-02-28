@@ -10,27 +10,26 @@ import {
 } from "@nestjs/swagger";
 
 @Controller({
-  path: routesV1.home.root,
-  version: routesV1.version
+  path: routesV1.home.root
 })
 @ApiTags(`/${routesV1.home.root}`)
 export class AppController {
 	constructor(private readonly appService: AppService) {}
-
-	@HttpCode(HttpStatus.OK)
-  @ApiOkResponse()
-  @Get('health')
-	health(): void {
-		return;
-	}
 
 	@ApiOperation({ summary: 'Witsoft Api info' })
   @ApiResponse({
     status: HttpStatus.OK,
     type: String,
   })
-  @Get()
+  @Get('/info')
 	getHello(): string {
 		return this.appService.getHello();
+	}
+
+	@HttpCode(HttpStatus.OK)
+  @ApiOkResponse()
+  @Get('health')
+	health(): void {
+		return;
 	}
 }

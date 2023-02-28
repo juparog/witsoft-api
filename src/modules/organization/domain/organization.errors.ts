@@ -1,5 +1,4 @@
 import {
-	HttpStatus,
 	NotFoundException as NotFoundHttpException,
 	ConflictException as ConflictHttpException,
 	BadRequestException as BadRequestHttpException,
@@ -40,13 +39,19 @@ export class OrganizationNotFoundError extends ExceptionBase {
 export class OrganizationErrorHandler {
 	static validateOrganizationError(error: ExceptionBase) {
 		if (error instanceof OrganizationAlreadyExistsError) {
-			throw new ConflictHttpException(error.metadata || "Conflict", {description: error.message});
+			throw new ConflictHttpException(error.metadata || "Conflict", {
+				description: error.message,
+			});
 		}
 		if (error instanceof OrganizationUnprocessableError) {
-			throw new BadRequestHttpException(error.metadata || "Bad Request", {description: error.message});
+			throw new BadRequestHttpException(error.metadata || "Bad Request", {
+				description: error.message,
+			});
 		}
 		if (error instanceof OrganizationNotFoundError) {
-			throw new NotFoundHttpException(error.metadata || "Not Found", {description: error.message});
+			throw new NotFoundHttpException(error.metadata || "Not Found", {
+				description: error.message,
+			});
 		}
 	}
 }

@@ -15,6 +15,7 @@ import {
 	OrganizationUnprocessableError,
 } from "@witsoft/modules/organization/domain/organization.errors";
 import { ORGANIZATION_REPOSITORY } from "@witsoft/modules/organization/organization.di-tokens";
+import { Password } from "@witsoft/libs/utils/password.utils";
 
 import { CreateOrganizationCommand } from "./create-organization.command";
 
@@ -29,10 +30,11 @@ export class CreateOrganizationService implements ICommandHandler {
 		command: CreateOrganizationCommand,
 	): Promise<Result<AggregateID, Error>> {
 		// Agregar mas propiedades necesarias para crear la organizacion, ejemplo un rol de inicio
+		const pass = new Password(command.password);
 		const organization = OrganizationEntity.create({
 			email: command.email,
 			name: command.name,
-			password: command.password,
+			password: pass.hashed(),
 			domain: command.domain,
 		});
 

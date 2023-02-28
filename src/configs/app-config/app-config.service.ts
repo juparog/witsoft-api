@@ -9,7 +9,7 @@ import {
 	IsString,
 } from "class-validator";
 
-import { ValidatedConfigService } from "@witsoft/config/validated-config.service";
+import { ValidatedConfigService } from "../validated-config.service";
 
 enum Environment {
 	Development = "development",
@@ -62,5 +62,17 @@ export class AppConfigService extends ValidatedConfigService {
   @IsOptional()
 	get apiPrefix(): string {
 		return this.configService.get<string>("app.apiPrefix");
+	}
+
+	@IsString()
+  @IsOptional()
+	get jwtSecretKey(): string {
+		return this.configService.get<string>("app.jwtSecretKey");
+	}
+
+	@IsString()
+  @IsOptional()
+	get jwtExpirationTime(): string {
+		return this.configService.get<string>("app.jwtExpirationTime");
 	}
 }
